@@ -12,10 +12,17 @@ from database import create_chat_table, save_message
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from chat_engine import get_ai_response
 
-
-
 # 页面基本设置
 st.set_page_config(page_title="AI Emotional support chatbot", layout="centered")
+
+# 🔐 登录检查
+if "user_id" not in st.session_state:
+    st.warning("⚠️ 请先登录后使用本功能。")
+    st.stop()
+
+user_id = st.session_state["user_id"]
+username = st.session_state.get("username", "你")
+
 #初始化聊天表
 create_chat_table()
 
@@ -101,25 +108,6 @@ for role, content in st.session_state.messages:
 
 st.markdown('</div>', unsafe_allow_html=True)
 
-# 用户输入框始终固定底部
-# with st.container():
-#     user_input = st.text_input("Say something：", key="input_field")
-#
-#     if st.button("Send") and user_input:
-#         # 记录用户输入
-#         st.session_state.messages.append(("user", user_input))
-#         #保存用户聊天记录
-#         save_message("user", user_input)
-#         # 获取 AI 回复
-#         with st.spinner("AI is thinking..."):
-#             ai_reply = get_ai_response(user_input)
-#
-#         st.session_state.messages.append(("ai", ai_reply))
-#         save_message("ai", ai_reply)
-#
-#         # 清除输入并刷新页面（重置输入框）
-#         del st.session_state["input_field"]
-#         st.experimental_rerun()
 with st.form(key="chat_form", clear_on_submit=True):
     user_input = st.text_input("Say something:", key="input_field", label_visibility="collapsed")
     submitted = st.form_submit_button("Send")
