@@ -68,13 +68,13 @@ def get_ai_response(user_input: str) -> str:
     try:
         resp = client().chat.completions.create(
             # 建议先用 gpt-4o-mini 或 gpt-3.5-turbo（更通用、更省钱）；若你账号有 4o 权限可换成 "gpt-4o"
-            model="gpt-4o-mini",
+            model="gpt-4o",
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": user_input},
             ],
             temperature=0.7,
-            max_tokens=800,
+            max_tokens=1000,
         )
         return resp.choices[0].message.content.strip()
     except Exception as e:
