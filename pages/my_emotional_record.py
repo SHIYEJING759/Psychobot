@@ -57,7 +57,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import pandas as pd
 import matplotlib
-from database import get_chat_emotion_logs, detect_emotion, detect_event
+from database import get_recent_messages, detect_emotion, detect_event
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
@@ -83,7 +83,8 @@ st.markdown("---")
 st.subheader("📈 Emotion Fluctuation Over Time")
 
 # 获取聊天记录
-data = get_chat_emotion_logs(user_id=user_id, days=14)
+data = get_recent_messages(user_id=user_id, days=14)
+data = pd.DataFrame(data, columns=["role", "message", "timestamp"])
 
 if not data.empty:
     user_data = data[data["role"] == "user"].copy()
