@@ -62,6 +62,11 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv
 
+user_id = st.session_state.get("user_id", None)
+if user_id is None:
+    st.warning("⚠️ 请先登录后查看情绪记录")
+    st.stop()
+
 # 初始化
 matplotlib.rcParams['font.sans-serif'] = ['SimHei']
 matplotlib.rcParams['axes.unicode_minus'] = False
@@ -78,7 +83,7 @@ st.markdown("---")
 st.subheader("📈 Emotion Fluctuation Over Time")
 
 # 获取聊天记录
-data = get_chat_emotion_logs(days=14)
+data = get_chat_emotion_logs(user_id=user_id, days=14)
 
 if not data.empty:
     user_data = data[data["role"] == "user"].copy()
