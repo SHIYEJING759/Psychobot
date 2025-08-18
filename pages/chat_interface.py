@@ -133,7 +133,7 @@ with st.form(key="chat_form", clear_on_submit=True):
         st.session_state.messages.append(("ai", ai_reply))
         save_message("ai", ai_reply)
 
-        st.experimental_rerun()
+        st.rerun()
 
 st.markdown("---")
 
