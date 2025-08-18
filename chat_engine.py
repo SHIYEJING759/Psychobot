@@ -2,6 +2,10 @@
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
+import openai
+import streamlit as st
+
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # 加载 .env 文件中的 API 密钥
 load_dotenv()
