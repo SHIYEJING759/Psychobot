@@ -1,34 +1,19 @@
-# from datetime import datetime, timedelta
-# import pandas as pd
 # import os
 # import sqlite3
-#
+# import pandas as pd
+# from datetime import datetime, timedelta
+# from openai import OpenAI
+# from dotenv import load_dotenv
+
+# # 设置数据库文件路径
 # BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 # DATA_DIR = os.path.join(BASE_DIR, "data")
 # os.makedirs(DATA_DIR, exist_ok=True)
-#
-# DB_PATH = os.path.join(DATA_DIR, "chat_logs.sql")
-#
-# # # 设置数据库文件路径（确保 data 文件夹存在）
-# # DB_PATH = os.path.join(os.path.dirname(__file__), "data", "chat_logs.sql")
-#
+# DB_PATH = os.path.join(DATA_DIR, "chat_logs.db")
+
+# # 初始化数据库
+
 # def init_db():
-#     """初始化数据库，创建 chat_logs 表（如果尚未存在）"""
-#     os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
-#     conn = sqlite3.connect(DB_PATH)
-#     cursor = conn.cursor()
-#     cursor.execute("""
-#         CREATE TABLE IF NOT EXISTS chat_logs (
-#             id INTEGER PRIMARY KEY AUTOINCREMENT,
-#             role TEXT NOT NULL,
-#             message TEXT NOT NULL,
-#             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-#         );
-#     """)
-#     conn.commit()
-#     conn.close()
-#
-# def create_chat_table():
 #     conn = sqlite3.connect(DB_PATH)
 #     c = conn.cursor()
 #     c.execute('''
@@ -39,130 +24,14 @@
 #             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
 #         )
 #     ''')
-#     conn.commit()
-#     conn.close()
-#
-# def save_message(role, message):
-#     conn = sqlite3.connect(DB_PATH)
-#     c = conn.cursor()
-#     c.execute('INSERT INTO chat_logs (role, message) VALUES (?, ?)', (role, message))
-#     conn.commit()
-#     conn.close()
-# def get_recent_messages(limit=100):
-#     conn = sqlite3.connect(DB_PATH)
-#     c = conn.cursor()
 #     c.execute('''
-#         SELECT role, message, timestamp
-#         FROM chat_logs
-#         ORDER BY id DESC
-#         LIMIT ?
-#     ''', (limit,))
-#     rows = c.fetchall()
-#     conn.close()
-#     return rows
-# def create_emotion_table():
-#     conn = sqlite3.connect(DB_PATH)
-#     cursor = conn.cursor()
-#     cursor.execute("""
 #         CREATE TABLE IF NOT EXISTS emotion_logs (
 #             id INTEGER PRIMARY KEY AUTOINCREMENT,
 #             emotion TEXT NOT NULL,
 #             note TEXT,
 #             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
 #         )
-#     """)
-#     conn.commit()
-#     conn.close()
-#
-# def save_emotion_log(emotion, note):
-#     conn = sqlite3.connect(DB_PATH)
-#     cursor = conn.cursor()
-#     cursor.execute("""
-#         INSERT INTO emotion_logs (emotion, note)
-#         VALUES (?, ?)
-#     """, (emotion, note))
-#     conn.commit()
-#     conn.close()
-#
-# def get_emotion_logs(days=30):
-#     conn = sqlite3.connect(DB_PATH)
-#     cursor = conn.cursor()
-#     query = f"""
-#         SELECT emotion, note, timestamp
-#         FROM emotion_logs
-#         WHERE timestamp >= datetime('now', '-{days} days')
-#     """
-#     df = pd.read_sql_query(query, conn)
-#     conn.close()
-#     return df
-#
-# def get_chat_emotion_logs(days=30):
-#     conn = sqlite3.connect(DB_PATH)
-#     cursor = conn.cursor()
-#     since = datetime.now() - timedelta(days=days)
-#     query = "SELECT role, message, timestamp FROM chat_logs WHERE timestamp >= ?"
-#     df = pd.read_sql_query(query, conn, params=[since.strftime('%Y-%m-%d %H:%M:%S')])
-#     conn.close()
-#     return df
-#
-# # def detect_emotion(text):
-# #     # 简化的情绪识别逻辑，可换成更复杂模型
-# #     if any(word in text for word in ["开心", "高兴", "快乐", "幸福"]):
-# #         return "😊 开心"
-# #     elif any(word in text for word in ["难过", "伤心", "沮丧"]):
-# #         return "😣 难过"
-# #     elif any(word in text for word in ["焦虑", "紧张", "担心"]):
-# #         return "🥶 焦虑"
-# #     elif any(word in text for word in ["生气", "愤怒", "恼火"]):
-# #         return "😡 生气"
-# #     else:
-# #         return "😐 平静"
-#
-# # event_analysis.py
-# import os
-# from openai import OpenAI
-# from dotenv import load_dotenv
-#
-# # 加载 API Key
-# load_dotenv()
-# api_key = os.getenv("OPENAI_API_KEY")
-# client = OpenAI(api_key=api_key)
-#
-# def detect_event(text):
-#     """
-#     使用 GPT 模型分析用户输入中是否包含生活事件（如工作压力、感情冲突、学业焦虑等）
-#     """
-#     prompt = f"""
-# 你是一个心理健康事件识别模型。请阅读下面的用户输入，判断其中是否包含以下三类事件之一，并返回事件标签（工作压力、感情冲突、学业焦虑）或无：
-#
-# 输入："{text}"
-#
-# 请只返回以下四种之一：
-# - 工作压力
-# - 感情冲突
-# - 学业焦虑
-# - 无
-# """
-#
-#     try:
-#         response = client.chat.completions.create(
-#             model="gpt-3.5-turbo",
-#             messages=[
-#                 {"role": "user", "content": prompt}
-#             ],
-#             temperature=0.3,
-#             max_tokens=10,
-#         )
-#         result = response.choices[0].message.content.strip()
-#         return result if result in ["工作压力", "感情冲突", "学业焦虑"] else None
-#     except Exception as e:
-#         return None
-#
-# DB_PATH = "chat_logs.db"
-#
-# def create_user_table():
-#     conn = sqlite3.connect(DB_PATH)
-#     c = conn.cursor()
+#     ''')
 #     c.execute('''
 #         CREATE TABLE IF NOT EXISTS users (
 #             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -172,7 +41,82 @@
 #     ''')
 #     conn.commit()
 #     conn.close()
-#
+# def create_user_table():
+#     """创建用户表（如果尚未存在）"""
+#     conn = sqlite3.connect(DB_PATH)
+#     cursor = conn.cursor()
+#     cursor.execute("""
+#         CREATE TABLE IF NOT EXISTS users (
+#             id INTEGER PRIMARY KEY AUTOINCREMENT,
+#             username TEXT UNIQUE NOT NULL,
+#             password TEXT NOT NULL
+#         );
+#     """)
+#     conn.commit()
+#     conn.close()
+# def create_chat_table():
+#         conn = sqlite3.connect(DB_PATH)
+#         c = conn.cursor()
+#         c.execute('''
+#             CREATE TABLE IF NOT EXISTS chat_logs (
+#                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+#                 role TEXT NOT NULL,
+#                 message TEXT NOT NULL,
+#                 timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+#             )
+#         ''')
+#         conn.commit()
+#         conn.close()
+# # chat 相关
+
+# def save_message(role, message):
+#     conn = sqlite3.connect(DB_PATH)
+#     c = conn.cursor()
+#     c.execute('INSERT INTO chat_logs (role, message) VALUES (?, ?)', (role, message))
+#     conn.commit()
+#     conn.close()
+
+# def get_recent_messages(limit=100):
+#     conn = sqlite3.connect(DB_PATH)
+#     c = conn.cursor()
+#     c.execute('''
+#         SELECT role, message, timestamp FROM chat_logs ORDER BY id DESC LIMIT ?
+#     ''', (limit,))
+#     rows = c.fetchall()
+#     conn.close()
+#     return rows
+
+# def get_chat_emotion_logs(days=30):
+#     conn = sqlite3.connect(DB_PATH)
+#     since = datetime.now() - timedelta(days=days)
+#     df = pd.read_sql_query("SELECT role, message, timestamp FROM chat_logs WHERE timestamp >= ?",
+#                            conn, params=[since.strftime('%Y-%m-%d %H:%M:%S')])
+#     conn.close()
+#     return df
+
+# # 情绪分析
+
+# def save_emotion_log(emotion, note):
+#     conn = sqlite3.connect(DB_PATH)
+#     c = conn.cursor()
+#     c.execute("INSERT INTO emotion_logs (emotion, note) VALUES (?, ?)", (emotion, note))
+#     conn.commit()
+#     conn.close()
+
+# def get_emotion_logs(days=30):
+#     conn = sqlite3.connect(DB_PATH)
+#     query = f"""
+#         SELECT emotion, note, timestamp
+#         FROM emotion_logs
+#         WHERE timestamp >= datetime('now', '-{days} days')
+#     """
+#     df = pd.read_sql_query(query, conn)
+#     conn.close()
+#     return df
+
+# # 用户登录
+
+
 # def register_user(username, password):
 #     conn = sqlite3.connect(DB_PATH)
 #     c = conn.cursor()
@@ -184,7 +128,7 @@
 #         return False
 #     finally:
 #         conn.close()
-#
+
 # def login_user(username, password):
 #     conn = sqlite3.connect(DB_PATH)
 #     c = conn.cursor()
@@ -192,6 +136,8 @@
 #     user = c.fetchone()
 #     conn.close()
 #     return user[0] if user else None
+# database.py
+
 import os
 import sqlite3
 import pandas as pd
@@ -199,118 +145,98 @@ from datetime import datetime, timedelta
 from openai import OpenAI
 from dotenv import load_dotenv
 
-# 设置数据库文件路径
+# 数据库路径设置
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 os.makedirs(DATA_DIR, exist_ok=True)
 DB_PATH = os.path.join(DATA_DIR, "chat_logs.db")
 
-# 初始化数据库
-
 def init_db():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
+
+    # 用户表
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL
+        )
+    ''')
+
+    # 聊天记录表
     c.execute('''
         CREATE TABLE IF NOT EXISTS chat_logs (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
             role TEXT NOT NULL,
             message TEXT NOT NULL,
-            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY(user_id) REFERENCES users(id)
         )
     ''')
+
+    # 情绪记录表
     c.execute('''
         CREATE TABLE IF NOT EXISTS emotion_logs (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
             emotion TEXT NOT NULL,
             note TEXT,
-            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY(user_id) REFERENCES users(id)
         )
     ''')
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL
-        )
-    ''')
-    conn.commit()
-    conn.close()
-def create_user_table():
-    """创建用户表（如果尚未存在）"""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL
-        );
-    """)
-    conn.commit()
-    conn.close()
-def create_chat_table():
-        conn = sqlite3.connect(DB_PATH)
-        c = conn.cursor()
-        c.execute('''
-            CREATE TABLE IF NOT EXISTS chat_logs (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                role TEXT NOT NULL,
-                message TEXT NOT NULL,
-                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-            )
-        ''')
-        conn.commit()
-        conn.close()
-# chat 相关
 
-def save_message(role, message):
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    c.execute('INSERT INTO chat_logs (role, message) VALUES (?, ?)', (role, message))
     conn.commit()
     conn.close()
 
-def get_recent_messages(limit=100):
+
+### --- 多用户支持的核心函数 --- ###
+
+# 保存消息
+def save_message(role, message, user_id):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute('INSERT INTO chat_logs (user_id, role, message) VALUES (?, ?, ?)', (user_id, role, message))
+    conn.commit()
+    conn.close()
+
+# 读取用户的聊天记录
+def get_recent_messages(user_id, limit=100):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.execute('''
-        SELECT role, message, timestamp FROM chat_logs ORDER BY id DESC LIMIT ?
-    ''', (limit,))
+        SELECT role, message, timestamp
+        FROM chat_logs
+        WHERE user_id = ?
+        ORDER BY id DESC LIMIT ?
+    ''', (user_id, limit))
     rows = c.fetchall()
     conn.close()
     return rows
 
-def get_chat_emotion_logs(days=30):
-    conn = sqlite3.connect(DB_PATH)
-    since = datetime.now() - timedelta(days=days)
-    df = pd.read_sql_query("SELECT role, message, timestamp FROM chat_logs WHERE timestamp >= ?",
-                           conn, params=[since.strftime('%Y-%m-%d %H:%M:%S')])
-    conn.close()
-    return df
-
-# 情绪分析
-
-def save_emotion_log(emotion, note):
+# 保存情绪记录
+def save_emotion_log(emotion, note, user_id):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
-    c.execute("INSERT INTO emotion_logs (emotion, note) VALUES (?, ?)", (emotion, note))
+    c.execute("INSERT INTO emotion_logs (user_id, emotion, note) VALUES (?, ?, ?)", (user_id, emotion, note))
     conn.commit()
     conn.close()
 
-def get_emotion_logs(days=30):
+# 获取用户情绪记录
+def get_emotion_logs(user_id, days=30):
     conn = sqlite3.connect(DB_PATH)
     query = f"""
         SELECT emotion, note, timestamp
         FROM emotion_logs
-        WHERE timestamp >= datetime('now', '-{days} days')
+        WHERE user_id = ? AND timestamp >= datetime('now', '-{days} days')
     """
-    df = pd.read_sql_query(query, conn)
+    df = pd.read_sql_query(query, conn, params=(user_id,))
     conn.close()
     return df
 
-# 用户登录
-
-
+# 用户注册
 def register_user(username, password):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
@@ -323,6 +249,7 @@ def register_user(username, password):
     finally:
         conn.close()
 
+# 用户登录
 def login_user(username, password):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
