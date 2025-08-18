@@ -249,7 +249,7 @@ def save_emotion_log(emotion, note, user_id):
     conn.close()
 
 # 获取用户情绪记录
-def get_emotion_logs(user_id, days=30):
+def get_chat_emotion_logs(user_id, days=30):
     conn = sqlite3.connect(DB_PATH)
     query = f"""
         SELECT emotion, note, timestamp
