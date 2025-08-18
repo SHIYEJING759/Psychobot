@@ -26,7 +26,8 @@
 #             st.success("Register successfully ! Please login.")
 
 #         else:
-#             st.error("Fail to register ! The username may existed.")import streamlit as st
+#             st.error("Fail to register ! The username may existed.")
+import streamlit as st
 from database import create_user_table, register_user, login_user
 
 # 创建用户表（确保表存在）
