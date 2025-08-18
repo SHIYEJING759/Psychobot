@@ -83,7 +83,7 @@ st.markdown("---")
 st.subheader("📈 Emotion Fluctuation Over Time")
 
 # 获取聊天记录
-data = get_recent_messages(user_id=user_id, days=14)
+data = get_recent_messages(user_id=user_id, limit=100)
 data = pd.DataFrame(data, columns=["role", "message", "timestamp"])
 
 if not data.empty:
