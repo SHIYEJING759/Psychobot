@@ -113,13 +113,13 @@ with st.form(key="chat_form", clear_on_submit=True):
     submitted = st.form_submit_button("Send")
     if submitted and user_input:
         st.session_state.messages.append(("user", user_input))
-        save_message("user", user_input)
+        save_message("user", user_input, st.session_state["user_id"])
 
         with st.spinner("AI is thinking..."):
             ai_reply = get_ai_response(user_input)
 
         st.session_state.messages.append(("ai", ai_reply))
-        save_message("ai", ai_reply)
+        save_message("ai", ai_reply, st.session_state["user_id"])
 
         st.rerun()
 
