@@ -50,8 +50,6 @@
 import streamlit as st
 from database import init_db
 
-# 初始化数据库
-init_db()
 
 # 页面基本配置
 st.set_page_config(
