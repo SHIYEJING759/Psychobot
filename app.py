@@ -59,6 +59,10 @@ st.set_page_config(
     layout="centered",
     page_icon="🧠"
 )
+# 👉 从 URL 参数中恢复登录状态 保存用户的账户信息
+params = st.experimental_get_query_params()
+if "user_id" in params and "user_id" not in st.session_state:
+    st.session_state["user_id"] = int(params["user_id"][0])
 
 # 标题与欢迎语
 st.title("💬 Welcome to the AI Emotional Support Space")
