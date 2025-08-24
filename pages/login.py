@@ -46,10 +46,18 @@
 #         else:
 #             st.warning("Please fill in both username and password.")
 import streamlit as st
-from database import create_user_table, register_user, login_user
+from database import (
+    register_user,
+    login_user,
+    save_message,
+    get_recent_messages,
+    save_emotion_log,
+    get_chat_emotion_logs,
+    detect_event,
+    detect_emotion
+)
 
-# 创建用户表（确保表存在）
-create_user_table()
+
 
 st.set_page_config(page_title="🔐 Login/Register", layout="centered")
 st.title("🔐 User Login / Register")
