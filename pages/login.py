@@ -85,7 +85,7 @@ if menu == "Login":
                 st.success(f"Welcome back, {username}!")
 
                 # ✅ 把 user_id 写入 URL 参数，实现持久化
-                st.query_params(user_id=user_id)
+                st.query_params = {"user_id": user_id}
 
                 # ✅ 登录成功跳转首页或你想跳转的页面
                 st.switch_page("app.py")
