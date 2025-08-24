@@ -5,8 +5,14 @@
 # st.title("🕘 Past Chat Records")
 # st.markdown("This page shows your recent conversation history.")
 
-# # 获取并展示聊天记录
-# messages = get_recent_messages(limit=50)
+# # ✅ 获取当前用户 ID
+# user_id = st.session_state.get("user_id", None)
+# if user_id is None:
+#     st.warning("⚠️ 请先登录以查看聊天记录。")
+#     st.stop()
+
+# # ✅ 获取当前用户的聊天记录
+# messages = get_recent_messages(user_id=user_id, limit=50)
 
 # if messages:
 #     for role, message, timestamp in reversed(messages):
@@ -31,7 +37,11 @@ if user_id is None:
 messages = get_recent_messages(user_id=user_id, limit=50)
 
 if messages:
-    for role, message, timestamp in reversed(messages):
+    for msg in reversed(messages):
+        role = msg["role"]
+        message = msg["message"]
+        timestamp = msg["timestamp"]
+
         with st.chat_message("user" if role == "user" else "ai"):
             st.markdown(f"**{timestamp}**  \n{message}")
 else:
