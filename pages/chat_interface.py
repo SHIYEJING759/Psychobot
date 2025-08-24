@@ -6,7 +6,16 @@ from datetime import datetime
 from database import get_recent_messages  # 这个函数你之前已经写在 database.py 里了
 import html
 
-from database import create_chat_table, save_message
+from database import(
+    register_user,
+    login_user,
+    save_message,
+    get_recent_messages,
+    save_emotion_log,
+    get_chat_emotion_logs,
+    detect_event,
+    detect_emotion
+)
 
 # 引入上级目录中的 chat_engine
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
