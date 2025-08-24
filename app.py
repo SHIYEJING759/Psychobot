@@ -48,7 +48,16 @@
 #     unsafe_allow_html=True
 # )
 import streamlit as st
-from database import init_db
+from database import (
+    register_user,
+    login_user,
+    save_message,
+    get_recent_messages,
+    save_emotion_log,
+    get_chat_emotion_logs,
+    detect_event,
+    detect_emotion
+)
 
 
 # 页面基本配置
