@@ -32,8 +32,6 @@ if "user_id" not in st.session_state:
 user_id = st.session_state["user_id"]
 username = st.session_state.get("username", "你")
 
-#初始化聊天表
-create_chat_table()
 
 st.title("💬 AI Emotional support chatbot")
 st.markdown("Welcome to AI Emotional support chatbot! I'm here to talk with you! 🌱")
