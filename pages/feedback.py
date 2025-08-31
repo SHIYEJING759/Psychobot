@@ -128,4 +128,13 @@ if st.button("📨 Submit Feedback"):
     st.markdown("### 🧠 Overall Support Evaluation")
     st.metric("Average MSPSS Score", f"{avg_score:.2f}")
     st.success(f"Your Support Level: **{level}**")
+    
+    csv_buffer = io.StringIO()
+    feedback_df.to_csv(csv_buffer, index=False)
+    st.download_button(
+        label="⬇️ Download your feedback as CSV",
+        data=csv_buffer.getvalue(),
+        file_name="mspss_feedback.csv",
+        mime="text/csv"
+    )
 
