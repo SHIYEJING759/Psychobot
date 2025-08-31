@@ -140,7 +140,6 @@ if st.button("📨 Submit Feedback"):
     # ✅ 转换 responses 为带 Question1~12 表头的格式
     question_columns = {f"Question{i}": responses[i] for i in range(1, 13)}
     feedback_df = pd.DataFrame([question_columns])
-    feedback_df["timestamp"] = datetime.now()
 
     # ✅ 计算平均得分和支持水平
     total_score = sum(responses.values())
