@@ -96,18 +96,57 @@ for i in range(1, 13):
     st.markdown(f"<div style='font-size:18px; font-weight:500;'>{questions[i]}</div>", unsafe_allow_html=True)
     responses[i] = st.slider("", 1, 7, 4, key=f"q{i}")
 
+# if st.button("📨 Submit Feedback"):
+#     # ✅ 将 responses 转为 DataFrame
+#     feedback_df = pd.DataFrame([responses])
+
+#     # ✅ 计算平均得分
+#     total_score = sum(responses.values())
+#     avg_score = total_score / 12
+#     feedback_df["average_score"] = round(avg_score, 2)
+
+#     # ✅ 判断支持水平
+#     if avg_score < 3.0:
+#         level = "Low"
+#     elif avg_score <= 5.0:
+#         level = "Moderate"
+#     else:
+#         level = "High"
+#     feedback_df["support_level"] = level
+
+#     # ✅ 创建 data 文件夹
+#     os.makedirs("data", exist_ok=True)
+
+#     # ✅ 保存 CSV 文件
+#     file_path = "data/mspss_feedback.csv"
+#     feedback_df.to_csv(file_path, mode="a", index=False, header=not os.path.exists(file_path))
+
+#     # ✅ 用户反馈显示
+#     st.success("Thank you for your feedback! 🎉")
+#     st.markdown("### 🧠 Overall Support Evaluation")
+#     st.metric("Average MSPSS Score", f"{avg_score:.2f}")
+#     st.success(f"Your Support Level: **{level}**")
+    
+#     csv_buffer = io.StringIO()
+#     feedback_df.to_csv(csv_buffer, index=False)
+#     st.download_button(
+#         label="⬇️ Download your feedback as CSV",
+#         data=csv_buffer.getvalue(),
+#         file_name="mspss_feedback.csv",
+#         mime="text/csv"
+#     )
+
 if st.button("📨 Submit Feedback"):
-    # ✅ 将 responses 转为 DataFrame
-    feedback_df = pd.DataFrame([responses])
+    # ✅ 转换 responses 为带 Question1~12 表头的格式
+    question_columns = {f"Question{i}": responses[i] for i in range(1, 13)}
+    feedback_df = pd.DataFrame([question_columns])
+    feedback_df["timestamp"] = datetime.now()
 
-
-
-    # ✅ 计算平均得分
+    # ✅ 计算平均得分和支持水平
     total_score = sum(responses.values())
     avg_score = total_score / 12
     feedback_df["average_score"] = round(avg_score, 2)
 
-    # ✅ 判断支持水平
     if avg_score < 3.0:
         level = "Low"
     elif avg_score <= 5.0:
@@ -116,19 +155,17 @@ if st.button("📨 Submit Feedback"):
         level = "High"
     feedback_df["support_level"] = level
 
-    # ✅ 创建 data 文件夹
+    # ✅ 本地保存 CSV（服务器端）
     os.makedirs("data", exist_ok=True)
-
-    # ✅ 保存 CSV 文件
     file_path = "data/mspss_feedback.csv"
     feedback_df.to_csv(file_path, mode="a", index=False, header=not os.path.exists(file_path))
 
-    # ✅ 用户反馈显示
+    # ✅ 显示得分和支持水平
     st.success("Thank you for your feedback! 🎉")
-    st.markdown("### 🧠 Overall Support Evaluation")
     st.metric("Average MSPSS Score", f"{avg_score:.2f}")
     st.success(f"Your Support Level: **{level}**")
-    
+
+    # ✅ 创建下载链接（带自定义表头）
     csv_buffer = io.StringIO()
     feedback_df.to_csv(csv_buffer, index=False)
     st.download_button(
@@ -137,4 +174,3 @@ if st.button("📨 Submit Feedback"):
         file_name="mspss_feedback.csv",
         mime="text/csv"
     )
-
