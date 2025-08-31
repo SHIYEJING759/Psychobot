@@ -96,29 +96,36 @@ for i in range(1, 13):
     responses[i] = st.slider("", 1, 7, 4, key=f"q{i}")
 
 if st.button("📨 Submit Feedback"):
+    # ✅ 将 responses 转为 DataFrame
     feedback_df = pd.DataFrame([responses])
+
+    # ✅ 添加时间戳
     feedback_df["timestamp"] = datetime.now()
 
-    # ✅ 确保 data 文件夹存在
+    # ✅ 计算平均得分
+    total_score = sum(responses.values())
+    avg_score = total_score / 12
+    feedback_df["average_score"] = round(avg_score, 2)
+
+    # ✅ 判断支持水平
+    if avg_score < 3.0:
+        level = "Low"
+    elif avg_score <= 5.0:
+        level = "Moderate"
+    else:
+        level = "High"
+    feedback_df["support_level"] = level
+
+    # ✅ 创建 data 文件夹
     os.makedirs("data", exist_ok=True)
 
-    # ✅ 保存为 CSV 文件
+    # ✅ 保存 CSV 文件
     file_path = "data/mspss_feedback.csv"
     feedback_df.to_csv(file_path, mode="a", index=False, header=not os.path.exists(file_path))
 
+    # ✅ 用户反馈显示
     st.success("Thank you for your feedback! 🎉")
-
-    # ✅ 可视化用户维度得分
-    st.markdown("### 📊 Your Feedback Summary")
-    family = [responses[i] for i in [3, 4, 8, 11]]
-    friends = [responses[i] for i in [6, 7, 9, 12]]
-    significant = [responses[i] for i in [1, 2, 5, 10]]
-
-    summary = pd.DataFrame({
-        "Family Support": [sum(family) / 4],
-        "Friend Support": [sum(friends) / 4],
-        "Significant Other Support": [sum(significant) / 4]
-    })
-
-    st.bar_chart(summary.T)
+    st.markdown("### 🧠 Overall Support Evaluation")
+    st.metric("Average MSPSS Score", f"{avg_score:.2f}")
+    st.success(f"Your Support Level: **{level}**")
 
