@@ -100,8 +100,7 @@ if st.button("📨 Submit Feedback"):
     # ✅ 将 responses 转为 DataFrame
     feedback_df = pd.DataFrame([responses])
 
-    # ✅ 添加时间戳
-    feedback_df["timestamp"] = datetime.now()
+
 
     # ✅ 计算平均得分
     total_score = sum(responses.values())
