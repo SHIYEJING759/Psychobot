@@ -9,18 +9,18 @@ st.markdown("We'd love to understand how supported you feel after using our chat
 
 # 12 MSPSS items
 questions = {
-    1: " 1. There is a special person who is around when I am in need.",
-    2: " 2. There is a special person with whom I can share my joys and sorrows.",
-    3: " 3. My family really tries to help me.",
-    4: " 4. I get the emotional help and support I need from my family.",
-    5: " 5. I have a special person who is a real source of comfort to me.",
-    6: " 6. My friends really try to help me.",
-    7: " 7. I can count on my friends when things go wrong.",
-    8: " 8. I can talk about my problems with my family.",
-    9: " 9. I have friends with whom I can share my joys and sorrows.",
-    10: "10. There is a special person in my life who cares about my feelings.",
-    11: "11. My family is willing to help me make decisions.",
-    12: "12. I can talk about my problems with my friends."
+    1: " 1.The chatbot is available when I feel emotionally distressed.",
+    2: " 2.I can share my joys and sorrows with the chatbot.",
+    3: " 3.The chatbot makes an effort to support me emotionally.",
+    4: " 4.I receive the emotional help and support I need from the chatbot.",
+    5: " 5.The chatbot is a genuine source of comfort for me.",
+    6: " 6.The chatbot actively tries to help me manage my emotions.",
+    7: " 7.I can count on the chatbot when things go wrong.",
+    8: " 8.I can talk about my problems with the chatbot.",
+    9: " 9.The chatbot allows me to share both joyful and painful feelings.",
+    10: "10.The chatbot care about my feelings during our conversation.",
+    11: "11.The chatbot supports me in thinking through my emotional challenges.",
+    12: "12.I feel comfortable discussing my problems with the chatbot."
 }
 
 responses = {}
@@ -50,4 +50,17 @@ if st.button("📨 Submit Feedback"):
     })
 
     st.bar_chart(summary.T)
+# The chatbot is available when I feel emotionally distressed.
+# I can share my joys and sorrows with the chatbot.
+# The chatbot makes an effort to support me emotionally.
+# I receive the emotional help and support I need from the chatbot
+# The chatbot is a genuine source of comfort for me.
+# The chatbot actively tries to help me manage my emotions.
+# I can count on the chatbot when I encounter emotional difficulties.
+# I can talk about my problems with the chatbot.
+
+# The chatbot allows me to share both joyful and painful feelings.
+# The chatbot care about my feelings during our conversation
+# The chatbot supports me in thinking through my emotional challenges.
+# I feel comfortable discussing my problems with the chatbot
 
