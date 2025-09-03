@@ -13,7 +13,7 @@ from database import (
 
 # Page basic settings
 st.set_page_config(
-    page_title="AI心理支持机器人",
+    page_title="AI Emotional Support Chatbot",
     layout="centered",
     page_icon="🧠"
 )
