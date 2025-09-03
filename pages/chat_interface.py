@@ -3,7 +3,7 @@ import sys
 import os
 import pandas as pd
 from datetime import datetime
-from database import get_recent_messages  # 这个函数你之前已经写在 database.py 里了
+from database import get_recent_messages  
 import html
 
 from database import(
@@ -17,16 +17,16 @@ from database import(
     detect_emotion
 )
 
-# 引入上级目录中的 chat_engine
+# import chat_engine from parent directory
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from chat_engine import get_ai_response
 
-# 页面基本设置
+# Basic page settings
 st.set_page_config(page_title="AI Emotional support chatbot", layout="centered")
 
-# 🔐 登录检查
+#  check login state
 if "user_id" not in st.session_state:
-    st.warning("⚠️ 请先登录后使用本功能。")
+    st.warning("⚠️ Please login first then use the function")
     st.stop()
 
 user_id = st.session_state["user_id"]
@@ -36,11 +36,11 @@ username = st.session_state.get("username", "你")
 st.title("💬 AI Emotional support chatbot")
 st.markdown("Welcome to AI Emotional support chatbot! I'm here to talk with you! 🌱")
 
-# 初始化对话历史
+# intialize chat history
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# 注入 CSS 样式（气泡 + 头像 + 固定聊天区域）
+# Inject CSS style
 st.markdown("""
 <style>
 .chat-container {
@@ -91,11 +91,11 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 聊天展示区域
+# chat space
 st.markdown('<div class="chat-container">', unsafe_allow_html=True)
 
 for role, content in st.session_state.messages:
-    # 转义 HTML 特殊字符，并保留换行格式
+    
     safe_content = html.escape(content).replace("\n", "<br>")
 
     if role == "user":
@@ -140,10 +140,10 @@ if st.button("📥 Export chat history as CSV"):
         df.to_csv(filename, index=False)
         with open(filename, "rb") as f:
             st.download_button(
-                label="📄 点击下载 CSV 文件",
+                label="📄 Download CSV File of chat history",
                 data=f,
                 file_name=filename,
                 mime="text/csv"
             )
     else:
-        st.info("暂无聊天记录可导出。")
+        st.info("No chat history can be export")
